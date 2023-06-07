@@ -1,0 +1,47 @@
+while(Serial.available())    //Check if there are available bytes to read
+  { String voice;	
+#define out1 2    //Connect Fan to pin 2
+#define out2 3    //Connect Bulb to pin 3
+#define out3 7   //Connect Pump to pin 2
+void setup()
+{
+  Serial.begin(9600);            //Set rate for communicating with phone
+  pinMode(out1, OUTPUT);       //Set Fan as an output
+  pinMode(out2, OUTPUT);       //Set Bulb as an output
+  pinMode(out3, OUTPUT);      //Set Pump as an output
+}
+void loop()
+{
+    delay(10);                 //Delay to make it stable
+    char c = Serial.read();    //Conduct a serial read
+    if (c == '#'){
+      break;                   //Stop the loop once # is detected after a word
+    }
+    voice += c;                //Means voice = voice + c
+  }
+    if (voice.length() >0)
+    {
+      Serial.println(voice);
+             
+      if(voice == "A"){
+        digitalWrite(out1, HIGH); //Means Fan will be ON
+      }             
+      else if(voice == "B"){   
+        digitalWrite(out1, LOW ); //Means Fan will be off
+      }             
+      else if(voice == "C"){   
+        digitalWrite(out2, HIGH);  //Means Bulb will be ON
+      }
+      else if(voice == "D"){   
+        digitalWrite(out2, LOW); //Means Bulb will be OFF
+      }
+      else if(voice == "E"){   
+        digitalWrite(out3, HIGH); //Means Pump will be ON
+      }
+      else if(voice == "F"){   
+        digitalWrite(out3, LOW); //Means Pump will be OFF
+      }  
+      voice="";
+    }
+}
+
